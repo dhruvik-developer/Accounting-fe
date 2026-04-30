@@ -2,7 +2,7 @@
 // Strategy:
 //   - Static app shell (HTML/JS/CSS): stale-while-revalidate. App opens
 //     instantly on second load and updates in the background.
-//   - API requests (/api/): NEVER cached. Accounting data must always be
+//   - API requests (/api/, /ac/v1/, /v1/): NEVER cached. Accounting data must always be
 //     fresh; a stale invoice list could create real-money mistakes.
 //   - Images & fonts: cache-first.
 //
@@ -11,12 +11,15 @@
 const CACHE_VERSION = 'v1';
 const SHELL_CACHE = `vyaparpro-shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `vyaparpro-assets-${CACHE_VERSION}`;
+const APP_SCOPE = new URL(self.registration.scope).pathname.replace(/\/$/, '');
+const scopePath = (path) => `${APP_SCOPE}${path.startsWith('/') ? path : `/${path}`}`;
+const isApiPath = (pathname) => /^\/(?:api\/|acf\/v\d+\/|v\d+\/)/.test(pathname);
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
       .open(SHELL_CACHE)
-      .then((cache) => cache.addAll(['/', '/index.html', '/manifest.webmanifest']))
+      .then((cache) => cache.addAll([scopePath('/'), scopePath('/index.html'), scopePath('/manifest.webmanifest')]))
       .catch(() => {}),
   );
   self.skipWaiting();
@@ -42,7 +45,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
 
   // Never cache API: financial data must be fresh.
-  if (url.pathname.startsWith('/api/')) return;
+  if (isApiPath(url.pathname)) return;
 
   // Cross-origin (e.g. Google Fonts): cache-first with no-cors fallback.
   if (url.origin !== self.location.origin) {
@@ -65,7 +68,7 @@ self.addEventListener('fetch', (event) => {
   // Navigation requests → return index.html offline (SPA shell).
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request).catch(() => caches.match('/index.html')),
+      fetch(request).catch(() => caches.match(scopePath('/index.html'))),
     );
     return;
   }

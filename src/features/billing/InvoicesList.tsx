@@ -3,7 +3,7 @@ import { Alert, Box, Button, Chip, Link, Snackbar } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
-import { useSearchParams } from 'react-router-dom';
+import { Link as RouterLink, useSearchParams } from 'react-router-dom';
 import { api } from '@/app/api';
 import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
@@ -93,7 +93,7 @@ export default function InvoicesList() {
         crumbs={[{ label: 'Billing' }, { label: 'Invoices' }]}
         subtitle={rows.length ? `${rows.length} invoice${rows.length > 1 ? 's' : ''}` : undefined}
         actions={
-          <Button size="small" startIcon={<OpenInNewIcon />} href="/pricing">
+          <Button size="small" startIcon={<OpenInNewIcon />} component={RouterLink} to="/pricing">
             Change plan
           </Button>
         }

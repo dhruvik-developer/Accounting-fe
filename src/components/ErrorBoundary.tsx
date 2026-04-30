@@ -14,6 +14,7 @@ import { Box, Button, Stack, Typography, alpha } from '@mui/material';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import RestartAltOutlinedIcon from '@mui/icons-material/RestartAltOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import { appPath } from '@/app/basePath';
 
 type Props = {
   children: ReactNode;
@@ -100,7 +101,7 @@ export default class ErrorBoundary extends Component<Props, State> {
             <Button startIcon={<RestartAltOutlinedIcon />} variant="contained" onClick={this.reset}>
               {chunkErr ? 'Reload page' : 'Try again'}
             </Button>
-            <Button startIcon={<HomeOutlinedIcon />} onClick={() => { window.location.href = '/dashboard'; }}>
+            <Button startIcon={<HomeOutlinedIcon />} onClick={() => { window.location.href = appPath('/dashboard'); }}>
               Go to dashboard
             </Button>
           </Stack>

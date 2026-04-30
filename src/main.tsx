@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { store } from '@/app/store';
 import BrandProvider from '@/app/brand';
 import App from '@/App';
+import { appBasePath, appPath } from '@/app/basePath';
 import { PermissionProvider } from '@/components/PermissionContext';
 import { NotifierProvider } from '@/components/Notifier';
 
@@ -12,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrandProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={appBasePath || undefined}>
           <PermissionProvider>
             <NotifierProvider>
               <App />
@@ -28,7 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 // owns the network and an SW would interfere with HMR.
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => {
+    navigator.serviceWorker.register(appPath('/sw.js')).catch(() => {
       // Swallow — SW registration is best-effort.
     });
   });

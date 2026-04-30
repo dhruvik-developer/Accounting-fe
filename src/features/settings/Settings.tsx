@@ -14,6 +14,7 @@ import DrawOutlinedIcon from '@mui/icons-material/DrawOutlined';
 import VerifiedOutlinedIcon from '@mui/icons-material/VerifiedOutlined';
 import QrCode2OutlinedIcon from '@mui/icons-material/QrCode2Outlined';
 import { api } from '@/app/api';
+import { appPath } from '@/app/basePath';
 import { GST_STATES } from '@/app/gstStates';
 import { formatApiError } from '@/app/errors';
 import MediaUpload from './MediaUpload';
@@ -1113,7 +1114,7 @@ function LinkedSection({ title, description, href }: any) {
     <Card variant="outlined"><CardContent>
       <Typography variant="subtitle1">{title}</Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>{description}</Typography>
-      <Button variant="contained" href={href}>Open Module</Button>
+      <Button variant="contained" href={appPath(href)}>Open Module</Button>
     </CardContent></Card>
   );
 }

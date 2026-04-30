@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { appPath, stripAppBasePath } from '@/app/basePath';
 import { notify } from '@/components/Notifier';
 
 const baseURL = import.meta.env.VITE_API_BASE || 'http://localhost:8000/api/v1';
@@ -37,7 +38,7 @@ api.interceptors.response.use(
       localStorage.removeItem('business_id');
       localStorage.removeItem('branch_id');
       notify({ severity: 'warning', message: 'Session expired. Please sign in again.' });
-      if (!location.pathname.startsWith('/auth')) location.href = '/auth/login';
+      if (!stripAppBasePath(location.pathname).startsWith('/auth')) location.href = appPath('/auth/login');
     } else if (err?.response?.status === 402) {
       if (canManageBilling()) {
         // Plan limit exceeded — surface via global event; UpgradeModal listens.

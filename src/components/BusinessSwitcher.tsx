@@ -5,6 +5,7 @@ import {
 import BusinessIcon from '@mui/icons-material/Business';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { api } from '@/app/api';
+import { appPath } from '@/app/basePath';
 
 type Option = {
   membership_id?: string;
@@ -108,7 +109,7 @@ export default function BusinessSwitcher() {
             <MenuItem disabled>
               <Typography variant="body2">No businesses available</Typography>
             </MenuItem>
-            <MenuItem onClick={() => { setAnchor(null); location.href = '/onboarding'; }}>
+            <MenuItem onClick={() => { setAnchor(null); location.href = appPath('/onboarding'); }}>
               <ListItemText primary="Create business…" />
             </MenuItem>
           </>

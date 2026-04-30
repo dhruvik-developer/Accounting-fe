@@ -6,6 +6,7 @@ import {
 import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import { api } from '@/app/api';
+import { appPath } from '@/app/basePath';
 import { notify } from '@/components/Notifier';
 import { checkoutRoute } from './checkoutNavigation';
 import { openRazorpayCheckout, verifyRazorpayPayment } from './razorpayCheckout';
@@ -93,7 +94,7 @@ export default function UpgradeModal() {
         notify({ severity: 'success', message: 'Payment verified. Plan updated successfully.' });
         setPayload(null);
         setCoupon(''); setCouponInfo(null);
-        location.href = '/billing/settings';
+        location.href = appPath('/billing/settings');
       } else if (mode === 'live' && short_url && /^https?:\/\//.test(short_url)) {
         setPayload(null);
         setCoupon(''); setCouponInfo(null);
@@ -104,12 +105,12 @@ export default function UpgradeModal() {
         setCoupon(''); setCouponInfo(null);
         // Stub or in-app checkout URL — strip origin if present so the SPA
         // navigates rather than full-reloading.
-        location.href = checkoutRoute(short_url);
+        location.href = appPath(checkoutRoute(short_url));
       } else {
         setPayload(null);
         setCoupon(''); setCouponInfo(null);
         notify({ severity: 'success', message: mode === 'no_change' ? 'This is already your current plan.' : 'Plan updated.' });
-        location.href = '/billing/settings';
+        location.href = appPath('/billing/settings');
       }
     } catch (e: any) {
       notify({

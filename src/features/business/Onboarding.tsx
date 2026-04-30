@@ -4,6 +4,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { api } from '@/app/api';
+import { appPath } from '@/app/basePath';
 import { formatApiError } from '@/app/errors';
 import { GST_STATES } from '@/app/gstStates';
 
@@ -26,7 +27,7 @@ export default function Onboarding() {
       // Hard reload to refresh axios interceptors and feature-flag cache
       // with the newly-active business. Replacing instead of pushing keeps
       // the back button from returning to a now-stale onboarding form.
-      window.location.replace('/dashboard');
+      window.location.replace(appPath('/dashboard'));
     } catch (e) {
       setErr(formatApiError(e, 'Failed to create business'));
     }

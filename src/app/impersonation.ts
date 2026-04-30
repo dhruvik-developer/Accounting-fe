@@ -8,6 +8,7 @@
  *   impersonating_name    → human label for the banner
  *   impersonating_return  → URL to return to on Exit (defaults to /platform)
  */
+import { appPath } from '@/app/basePath';
 
 const KEYS = {
   active: 'impersonating',
@@ -24,7 +25,7 @@ export function startImpersonation(businessId: string, businessName: string, ret
   localStorage.setItem(KEYS.ret, returnTo);
   // Hard-reload so middleware-bound state (subscription banner, RBAC,
   // suggest context, etc.) all rebind to the new tenant cleanly.
-  window.location.href = '/';
+  window.location.href = appPath('/');
 }
 
 export function exitImpersonation() {
@@ -35,7 +36,7 @@ export function exitImpersonation() {
   localStorage.removeItem(KEYS.active);
   localStorage.removeItem(KEYS.name);
   localStorage.removeItem(KEYS.ret);
-  window.location.href = ret;
+  window.location.href = appPath(ret);
 }
 
 export function isImpersonating(): boolean {
